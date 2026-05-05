@@ -1,0 +1,61 @@
+.tutorial-screen {
+  height: calc(100vh - 120px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: radial-gradient(circle at center, rgba(212, 175, 55, 0.05) 0%, transparent 70%);
+}
+
+.tutorial-content {
+  max-width: 600px;
+  width: 90%;
+  text-align: center;
+}
+
+.section-title {
+  font-size: 2rem;
+  color: var(--color-gold);
+  margin-bottom: 2rem;
+  letter-spacing: 0.2em;
+}
+
+.coming-soon-card {
+  background: rgba(30, 30, 30, 0.8);
+  border: 1px solid var(--color-gold);
+  padding: 3rem;
+  border-radius: 4px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+}
+
+.coming-soon-card .icon {
+  font-size: 4rem;
+  margin-bottom: 1.5rem;
+}
+
+.coming-soon-card h3 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+
+.coming-soon-card p {
+  opacity: 0.7;
+  line-height: 1.8;
+  margin-bottom: 2rem;
+}
+
+.back-btn {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.2);
+  color: #fff;
+  padding: 0.8rem 2.5rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.back-btn:hover {
+  background: var(--color-gold);
+  color: var(--color-lacquer);
+  border-color: var(--color-gold);
+}

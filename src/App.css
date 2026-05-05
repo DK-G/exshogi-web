@@ -1,0 +1,47 @@
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.app-header {
+  padding: 1rem var(--spacing-ma-lg);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(5px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.logo-text {
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.logo-text span {
+  font-size: 0.8rem;
+  opacity: 0.5;
+  margin-left: 0.5rem;
+}
+
+.engine-status {
+  font-family: var(--font-accent);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  color: var(--color-gold);
+}
+
+main {
+  flex-grow: 1;
+}
+
+.app-footer {
+  padding: 1rem;
+  text-align: center;
+  font-size: 0.6rem;
+  opacity: 0.3;
+  letter-spacing: 0.2em;
+}

@@ -1,0 +1,135 @@
+@font-face {
+  font-family: 'TamanegiKaisho';
+  src: url('/src/assets/fonts/tamanegi_kaisho.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+:root {
+  /* Colors - Zen Archive Palette */
+  --color-lacquer: #0a0a0a;
+  --color-urushi-red: #800000;
+  --color-gold: #d4af37;
+  --color-gold-light: #f1d592;
+  --color-washi: #fcfaf2;
+  --color-kaya: #e3c08d;
+  
+  /* Tonal Surfaces (No borders, just depth) */
+  --surface-low: #141414;
+  --surface-base: #1e1e1e;
+  --surface-high: #2a2a2a;
+  
+  /* Textures */
+  --bg-urushi: url('/src/assets/urushi.png');
+  --bg-kinpaku: url('/src/assets/kinpaku.png');
+  --bg-washi: url('/src/assets/washi.png');
+  --bg-board-wood: url('/src/assets/board_wood.jpg');
+
+  /* Typography */
+  --font-main: 'TamanegiKaisho', 'Noto Serif JP', serif;
+  --font-accent: 'Cinzel', serif;
+
+  /* Spacing (Ma) */
+  --spacing-ma-sm: 0.5rem;
+  --spacing-ma-md: 1.5rem;
+  --spacing-ma-lg: 3rem;
+
+  /* Aesthetics */
+  --radius-sharp: 0px;
+  --shadow-premium: 0 20px 40px rgba(0, 0, 0, 0.6);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: var(--color-lacquer);
+  background-image: var(--bg-urushi);
+  background-size: cover;
+  background-attachment: fixed;
+  color: var(--color-washi);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Washi Texture Overlay for the entire app */
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: var(--bg-washi);
+  opacity: 0.05;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  background: linear-gradient(to bottom, var(--color-gold-light), var(--color-gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 700;
+}
+
+button {
+  background: var(--bg-kinpaku);
+  background-size: cover;
+  border: none;
+  padding: 1rem 2rem;
+  color: var(--color-lacquer);
+  font-family: var(--font-main);
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: var(--radius-sharp);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  position: relative;
+  overflow: hidden;
+}
+
+button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateX(-100%);
+  transition: transform 0.3s;
+}
+
+button:hover::before {
+  transform: translateX(0);
+}
+
+button:hover {
+  filter: brightness(1.1);
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+}
+
+/* Premium Panels (No borders) */
+.panel {
+  background-color: var(--surface-low);
+  padding: var(--spacing-ma-md);
+  border-radius: var(--radius-sharp);
+  box-shadow: var(--shadow-premium);
+}

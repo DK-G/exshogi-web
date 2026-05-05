@@ -1,0 +1,155 @@
+.board-outer-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--color-kaya);
+  background-image: var(--bg-board-wood);
+  background-size: cover;
+  padding: 16px;
+  border-radius: 4px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
+  border: 1px solid #4e342e;
+}
+
+.board-row {
+  display: flex;
+  width: 100%;
+  justify-content: flex-start;
+}
+
+.board-middle-content {
+  display: flex;
+  align-items: stretch;
+  justify-content: flex-start;
+}
+
+.corner-spacer {
+  width: 36px; /* Match right rank labels width */
+}
+
+.coords-files {
+  display: flex;
+  width: 540px; /* 9 * 60px */
+  padding-left: 2px; /* Align with cells inside the 2px board border */
+}
+
+.coords-files .coord-label {
+  width: 60px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 15px;
+  font-weight: bold;
+  color: #3e2723;
+  font-family: var(--font-accent);
+  opacity: 0.9;
+}
+
+.coords-ranks {
+  display: flex;
+  flex-direction: column;
+  width: 36px;
+  padding-top: 2px; /* Align with cells inside the 2px board border */
+}
+
+.coords-ranks .coord-label {
+  height: 60px;
+  width: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 15px;
+  font-weight: bold;
+  color: #3e2723;
+  font-family: var(--font-main);
+  opacity: 0.9;
+}
+
+.shogi-board {
+  display: grid;
+  grid-template-columns: repeat(9, 60px);
+  grid-template-rows: repeat(9, 60px);
+  border: 2px solid #2d1b16;
+  position: relative;
+  background-color: transparent; /* Parent handles background */
+}
+
+.cell {
+  width: 60px;
+  height: 60px;
+  border: 0.5px solid rgba(45, 27, 22, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+  transition: background-color 0.1s ease;
+}
+
+.cell:hover {
+  background-color: rgba(212, 175, 55, 0.1);
+}
+
+.cell.selected {
+  background-color: rgba(212, 175, 55, 0.3);
+  box-shadow: inset 0 0 12px rgba(212, 175, 55, 0.3);
+}
+
+.cell.valid-move::after {
+  content: "";
+  width: 12px;
+  height: 12px;
+  background-color: rgba(212, 175, 55, 0.45);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* Star Points (Hoshi) */
+.cell:nth-child(21)::after,
+.cell:nth-child(25)::after,
+.cell:nth-child(57)::after,
+.cell:nth-child(61)::after {
+  content: "";
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background-color: #2d1b16;
+  border-radius: 50%;
+  z-index: 5;
+  right: -4px;
+  bottom: -4px;
+  pointer-events: none;
+}
+
+/* Integrated KomaDai Areas */
+.integrated-komadai {
+  width: 540px; /* Exact board width */
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 36px; /* Compensate for right rank labels */
+  position: relative;
+  overflow: hidden;
+}
+
+.integrated-komadai.gote {
+  background: var(--color-washi);
+  margin-bottom: 8px;
+  clip-path: polygon(0% 0%, 100% 0%, 95% 100%, 5% 100%);
+  border-bottom: 2px solid var(--color-gold);
+}
+
+.integrated-komadai.sente {
+  background: var(--color-lacquer);
+  margin-top: 8px;
+  clip-path: polygon(5% 0%, 95% 0%, 100% 100%, 0% 100%);
+  border-top: 2px solid var(--color-gold);
+}
+
+.grid-with-labels {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
