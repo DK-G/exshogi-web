@@ -9,6 +9,15 @@ interface BoardProps {
   onCellClick: (row: number, col: number) => void;
   selectedCell: [number, number] | null;
   validMoves: [number, number][];
+  captureTargets?: [number, number][];
+  phaseMovedCells?: [number, number][];
+  trapMarkers?: Array<{ row: number; col: number; side: 'sente' | 'gote'; count: number }>;
+  disappearanceMarkers?: Array<{
+    row: number;
+    col: number;
+    kind: 'forecast' | 'confirmed' | 'vanished' | 'immune';
+    label?: string;
+  }>;
   capturedPieces: {
     sente: Record<string, number>;
     gote: Record<string, number>;
@@ -26,6 +35,10 @@ export const Board: React.FC<BoardProps> = ({
   onCellClick,
   selectedCell,
   validMoves,
+  captureTargets = [],
+  phaseMovedCells = [],
+  trapMarkers = [],
+  disappearanceMarkers = [],
   capturedPieces
 }) => {
   const files = [9, 8, 7, 6, 5, 4, 3, 2, 1];
@@ -54,13 +67,23 @@ export const Board: React.FC<BoardProps> = ({
               row.map((piece, colIndex) => {
                 const isSelected = selectedCell?.[0] === rowIndex && selectedCell?.[1] === colIndex;
                 const isValidMove = validMoves.some(([r, c]) => r === rowIndex && c === colIndex);
+                const isCaptureTarget = captureTargets.some(([r, c]) => r === rowIndex && c === colIndex);
+                const isPhaseMoved = phaseMovedCells.some(([r, c]) => r === rowIndex && c === colIndex);
+                const trapMarker = trapMarkers.find((marker) => marker.row === rowIndex && marker.col === colIndex);
+                const disappearanceMarker = disappearanceMarkers.find((marker) => marker.row === rowIndex && marker.col === colIndex);
                 
                 return (
                   <div 
                     key={`${rowIndex}-${colIndex}`}
-                    className={`cell ${isSelected ? 'selected' : ''} ${isValidMove ? 'valid-move' : ''}`}
+                    className={`cell ${isSelected ? 'selected' : ''} ${isValidMove ? 'valid-move' : ''} ${isCaptureTarget ? 'capture-target' : ''} ${isPhaseMoved ? 'phase-moved' : ''} ${trapMarker ? `trap-marker ${trapMarker.side}` : ''} ${disappearanceMarker ? `disappearance-marker ${disappearanceMarker.kind}` : ''}`}
                     onClick={() => onCellClick(rowIndex, colIndex)}
                   >
+                    {trapMarker && (
+                      <span className="trap-badge">{trapMarker.count}</span>
+                    )}
+                    {disappearanceMarker && (
+                      <span className="disappearance-badge">{disappearanceMarker.label}</span>
+                    )}
                     {piece && (
                       <Piece 
                         type={piece.type} 

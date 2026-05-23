@@ -1,8 +1,16 @@
 /// <reference lib="webworker" />
-// @ts-ignore
 import createModule from './nshogi-heuristic.js';
 
-let engine: any = null;
+type NshogiModule = {
+  ccall: (
+    name: string,
+    returnType: string,
+    argTypes: string[],
+    args: Array<string | number>,
+  ) => string;
+};
+
+let engine: NshogiModule | null = null;
 
 async function init() {
   try {

@@ -105,6 +105,141 @@
   pointer-events: none;
 }
 
+.cell.capture-target {
+  background:
+    radial-gradient(circle at 50% 50%, rgba(190, 31, 31, 0.26), transparent 58%),
+    rgba(108, 20, 20, 0.12);
+}
+
+.cell.capture-target::before {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  border: 2px solid rgba(190, 31, 31, 0.56);
+  pointer-events: none;
+}
+
+.cell.phase-moved {
+  background:
+    linear-gradient(135deg, rgba(34, 34, 34, 0.16), rgba(34, 34, 34, 0.02)),
+    rgba(0, 0, 0, 0.08);
+}
+
+.cell.phase-moved .piece-wrapper {
+  opacity: 0.58;
+}
+
+.cell.trap-marker::before {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 2px dashed rgba(65, 32, 19, 0.46);
+  pointer-events: none;
+}
+
+.cell.trap-marker.sente::before {
+  border-color: rgba(124, 30, 30, 0.62);
+}
+
+.cell.trap-marker.gote::before {
+  border-color: rgba(38, 84, 116, 0.62);
+}
+
+.trap-badge {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  z-index: 8;
+  min-width: 17px;
+  height: 17px;
+  padding: 0 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(20, 20, 20, 0.84);
+  border: 1px solid rgba(212, 175, 55, 0.5);
+  color: var(--color-gold-light);
+  font-size: 0.65rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.cell.disappearance-marker {
+  background:
+    radial-gradient(circle at 50% 50%, rgba(104, 72, 172, 0.28), transparent 60%),
+    rgba(70, 42, 126, 0.12);
+}
+
+.cell.disappearance-marker::before {
+  content: "";
+  position: absolute;
+  inset: 7px;
+  border: 2px solid rgba(132, 92, 210, 0.54);
+  pointer-events: none;
+}
+
+.cell.disappearance-marker.confirmed {
+  background:
+    radial-gradient(circle at 50% 50%, rgba(87, 35, 156, 0.38), transparent 62%),
+    rgba(45, 18, 92, 0.18);
+}
+
+.cell.disappearance-marker.confirmed::before {
+  border-color: rgba(190, 134, 255, 0.74);
+  box-shadow: inset 0 0 14px rgba(113, 67, 187, 0.26);
+}
+
+.cell.disappearance-marker.vanished {
+  background:
+    radial-gradient(circle at 50% 50%, rgba(16, 16, 16, 0.42), transparent 60%),
+    rgba(0, 0, 0, 0.18);
+}
+
+.cell.disappearance-marker.vanished::before {
+  border-color: rgba(18, 18, 18, 0.7);
+}
+
+.cell.disappearance-marker.immune {
+  background:
+    radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.3), transparent 58%),
+    rgba(212, 175, 55, 0.1);
+}
+
+.cell.disappearance-marker.immune::before {
+  border-color: rgba(212, 175, 55, 0.76);
+}
+
+.disappearance-badge {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  z-index: 9;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(42, 23, 74, 0.88);
+  border: 1px solid rgba(190, 134, 255, 0.48);
+  color: #eadcff;
+  font-size: 0.62rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.cell.disappearance-marker.vanished .disappearance-badge {
+  background: rgba(16, 16, 16, 0.9);
+  border-color: rgba(252, 250, 242, 0.28);
+  color: rgba(252, 250, 242, 0.82);
+}
+
+.cell.disappearance-marker.immune .disappearance-badge {
+  background: rgba(63, 45, 6, 0.9);
+  border-color: rgba(212, 175, 55, 0.58);
+  color: var(--color-gold-light);
+}
+
 /* Star Points (Hoshi) */
 .cell:nth-child(21)::after,
 .cell:nth-child(25)::after,
