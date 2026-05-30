@@ -2,6 +2,9 @@
 
 このファイルは現時点の実作業チェックリストです。大枠は `roadmap.md` に従い、ここでは実装可能な粒度、検証方法、実機依存の有無を分けて管理します。
 
+## Git公開準備
+- [x] `.env`、secret、credential、Terraform state を `.gitignore` に追加し、公開差分への混入を予防する
+
 ## 0. Shared Contract Alignment
 - [x] 共通サーバの正を決める（Cloudflare Workers 版を正、Node `packages/pvp-server` はローカル/フォールバック扱い）
 - [x] Web の PvP 設定を `VITE_EXSHOGI_PVP_BASE_URL` / `VITE_EXSHOGI_PVP_WS_URL` と `globalThis.EXSHOGI_PVP_*` で上書き可能にする

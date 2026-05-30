@@ -12,6 +12,22 @@ dist
 dist-ssr
 *.local
 
+# Local environment and credentials
+.env
+.env.*
+!.env.example
+.secrets/
+secrets/
+credentials.json
+token.json
+*.pem
+*.key
+*.p12
+*.jks
+*.tfstate
+*.tfstate.*
+*.tfvars
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
