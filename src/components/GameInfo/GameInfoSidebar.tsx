@@ -5,6 +5,7 @@ interface Player {
   name: string;
   rank: string;
   time: string;
+  timeTone?: 'normal' | 'byoyomi' | 'low' | 'critical';
 }
 
 interface GameInfoSidebarProps {
@@ -31,7 +32,7 @@ export const GameInfoSidebar: React.FC<GameInfoSidebarProps> = ({ sente, gote, t
             <span className="name">{gote.name}</span>
             <span className="rank">{gote.rank}</span>
           </div>
-          <div className="timer-display">{gote.time}</div>
+          <div className={`timer-display ${gote.timeTone ?? 'normal'}`}>{gote.time}</div>
         </div>
       </div>
 
@@ -82,7 +83,7 @@ export const GameInfoSidebar: React.FC<GameInfoSidebarProps> = ({ sente, gote, t
             <span className="name">{sente.name}</span>
             <span className="rank">{sente.rank}</span>
           </div>
-          <div className="timer-display">{sente.time}</div>
+          <div className={`timer-display ${sente.timeTone ?? 'normal'}`}>{sente.time}</div>
         </div>
       </div>
     </div>

@@ -14,7 +14,7 @@ import type { PvpMatchSession } from '../../services/pvp/session';
 import { clearPvpSession, savePvpSession } from '../../services/pvp/storage';
 import type { RoomSnapshot } from '../../services/pvp/types';
 import './PlayScreen.css';
-import { MOBILE_DEFAULT_TRAP_COUNT } from '../../domain/mobileParity';
+import { MOBILE_DEFAULT_TIME_CONTROL, MOBILE_DEFAULT_TRAP_COUNT } from '../../domain/mobileParity';
 
 interface PlayScreenProps {
   gameMode: 'quick' | 'pvp' | 'pvc';
@@ -25,6 +25,7 @@ interface PlayScreenProps {
 }
 
 type PvpConnectionStatus = 'idle' | 'connecting' | 'connected' | 'disconnected' | 'error';
+type LocalClockPhase = 'main' | 'byoyomi';
 
 export const PlayScreen: React.FC<PlayScreenProps> = ({
   gameMode,
@@ -102,9 +103,15 @@ export const PlayScreen: React.FC<PlayScreenProps> = ({
     sente: {},
     gote: {},
   });
-  const [clocks, setClocks] = useState(() => ({
-    sente: INITIAL_PVC_CLOCK_MS,
-    gote: INITIAL_PVC_CLOCK_MS,
+  const [localClockState, setLocalClockState] = useState(() => ({
+    clocks: {
+      sente: INITIAL_PVC_CLOCK_MS,
+      gote: INITIAL_PVC_CLOCK_MS,
+    },
+    phases: {
+      sente: 'main' as LocalClockPhase,
+      gote: 'main' as LocalClockPhase,
+    },
   }));
   const gameId = useMemo(
     () => `web-${variantKey}-${startedAt.replace(/[-:.TZ]/g, '').slice(0, 14)}`,
@@ -116,10 +123,10 @@ export const PlayScreen: React.FC<PlayScreenProps> = ({
     : 'playing';
   const pvpIsConnected = gameMode !== 'pvp' || pvpConnectionStatus === 'connected';
   const pvpCanMove = gameMode !== 'pvp' || (pvpRoomStatus === 'playing' && pvpIsConnected);
-  const activeClocks = gameMode === 'pvp' && remoteSnapshot?.clocks ? remoteSnapshot.clocks : clocks;
+  const activeClocks = gameMode === 'pvp' && remoteSnapshot?.clocks ? remoteSnapshot.clocks : localClockState.clocks;
   const timeControlLabel = gameMode === 'pvp' && remoteSnapshot
     ? formatTimePreset(remoteSnapshot.timeLimitMs, remoteSnapshot.byoYomiMs)
-    : '10分切れ負け';
+    : formatLocalTimeControlLabel(variantKey);
   const latestEffects = moveEffects.at(-1) ?? [];
   const trapKingHits = gameState.variantState?.trap?.kingHits;
   const disappearance = gameState.variantState?.disappearance;
@@ -145,6 +152,7 @@ export const PlayScreen: React.FC<PlayScreenProps> = ({
     ? mergeTrapMarkers(trapMarkers, trapSetupSelections)
     : trapMarkers;
   const trapSetupWaiting = variantKey === 'trap' && gameMode === 'pvp' && pvpRoomStatus === 'setup' && trapSetupSubmitted;
+  const previousLocalTurnRef = React.useRef<Side>(turn);
 
   useEffect(() => {
     if (gameMode !== 'pvp') return;
@@ -155,21 +163,22 @@ export const PlayScreen: React.FC<PlayScreenProps> = ({
   useEffect(() => {
     if (variantKey !== 'invader' || result) return;
     if (isSpectator) return;
+    if (gameMode === 'pvp') return;
 
     const timer = window.setInterval(() => {
       setInvaderPhaseClock((prev) => {
         const current = prev.turn === turn ? prev.ms : INVADER_PHASE_MS;
-        const next = Math.max(0, current - 1000);
+        const next = Math.max(0, current - 100);
         if (next <= 0) {
           window.clearInterval(timer);
           endInvaderPhase('timeout');
         }
         return { turn, ms: next };
       });
-    }, 1000);
+    }, 100);
 
     return () => window.clearInterval(timer);
-  }, [endInvaderPhase, isSpectator, result, variantKey, turn]);
+  }, [endInvaderPhase, gameMode, isSpectator, result, variantKey, turn]);
 
   // CPU Move logic (Always active for PvC, active as placeholder for Quick)
   useEffect(() => {
@@ -245,7 +254,7 @@ export const PlayScreen: React.FC<PlayScreenProps> = ({
         setPvpConnectionError(null);
         setRemoteSnapshot(snapshot);
         setPvpUsiMoves(snapshot.moves);
-        setClocks(snapshot.clocks);
+        setLocalClockState((prev) => ({ ...prev, clocks: snapshot.clocks }));
         savePvpSession({
           ...pvpSession,
           snapshot,
@@ -263,7 +272,7 @@ export const PlayScreen: React.FC<PlayScreenProps> = ({
           executeUsiMove(message.payload.move);
         }
         if (message.type === 'move') {
-          setClocks(message.payload.clocks);
+          setLocalClockState((prev) => ({ ...prev, clocks: message.payload.clocks }));
           setRemoteSnapshot((prev) => prev
             ? {
                 ...prev,
@@ -325,26 +334,71 @@ export const PlayScreen: React.FC<PlayScreenProps> = ({
   }, [abort, executeUsiMove, finishRemoteGame, gameMode, isSpectator, pvpReconnectAttempt, pvpSession, resign, timeout]);
 
   useEffect(() => {
+    if (gameMode !== 'pvc' && gameMode !== 'quick') {
+      previousLocalTurnRef.current = turn;
+      return;
+    }
+    if (variantKey === 'invader') {
+      previousLocalTurnRef.current = turn;
+      return;
+    }
+    const previousTurn = previousLocalTurnRef.current;
+    previousLocalTurnRef.current = turn;
+    if (previousTurn === turn) return;
+
+    setLocalClockState((prev) => {
+      if (prev.phases[previousTurn] !== 'byoyomi') {
+        return prev;
+      }
+      return {
+        ...prev,
+        clocks: {
+          ...prev.clocks,
+          [previousTurn]: BYOYOMI_MS,
+        },
+      };
+    });
+  }, [gameMode, turn, variantKey]);
+
+  useEffect(() => {
     if (result) return;
     if (trapSetupPanelActive) return;
     if (gameMode !== 'pvc' && gameMode !== 'quick') return;
+    if (variantKey === 'invader') return;
 
     const timer = window.setInterval(() => {
-      setClocks((prev) => {
+      setLocalClockState((prev) => {
+        const currentPhase = prev.phases[turn];
+        const nextMs = Math.max(0, prev.clocks[turn] - 1000);
+        if (currentPhase === 'main' && nextMs <= 0) {
+          return {
+            clocks: {
+              ...prev.clocks,
+              [turn]: BYOYOMI_MS,
+            },
+            phases: {
+              ...prev.phases,
+              [turn]: 'byoyomi',
+            },
+          };
+        }
         const next = {
-          ...prev,
-          [turn]: Math.max(0, prev[turn] - 1000),
+          ...prev.clocks,
+          [turn]: nextMs,
         };
-        if (next[turn] <= 0) {
+        if (currentPhase === 'byoyomi' && next[turn] <= 0) {
           window.clearInterval(timer);
           timeout(turn);
         }
-        return next;
+        return {
+          ...prev,
+          clocks: next,
+        };
       });
     }, 1000);
 
     return () => window.clearInterval(timer);
-  }, [gameMode, result, timeout, turn, trapSetupPanelActive]);
+  }, [gameMode, result, timeout, trapSetupPanelActive, turn, variantKey]);
 
   useEffect(() => {
     if (!isMatchmakingActive || result) return;
@@ -482,6 +536,13 @@ export const PlayScreen: React.FC<PlayScreenProps> = ({
     setPvpReconnectAttempt((prev) => prev + 1);
   };
 
+  const senteClock = gameMode === 'pvp'
+    ? { time: formatClock(activeClocks.sente), timeTone: 'normal' as const }
+    : formatLocalClockDisplay('sente', turn, variantKey, activeClocks.sente, localClockState.phases.sente, invaderPhaseRemainingMs);
+  const goteClock = gameMode === 'pvp'
+    ? { time: formatClock(activeClocks.gote), timeTone: 'normal' as const }
+    : formatLocalClockDisplay('gote', turn, variantKey, activeClocks.gote, localClockState.phases.gote, invaderPhaseRemainingMs);
+
   return (
     <div className="play-arena">
       {gameMode === 'quick' && (
@@ -557,7 +618,7 @@ export const PlayScreen: React.FC<PlayScreenProps> = ({
               <span className="danger">捕獲必須: {captureTargets.length} マス</span>
             )}
             {variantKey === 'invader' && (
-              <span>フェーズ: {turn === 'sente' ? '先手' : '後手'} 残り {formatClock(invaderPhaseRemainingMs)} / 移動済み {movedInPhase} 駒</span>
+              <span>フェーズ: {turn === 'sente' ? '先手' : '後手'} 残り {formatPhaseSeconds(invaderPhaseRemainingMs)} / 移動済み {movedInPhase} 駒</span>
             )}
             {variantKey === 'trap' && trapKingHits && (
               <span>王罠: 先手 {trapKingHits.sente}/2・後手 {trapKingHits.gote}/2</span>
@@ -677,8 +738,8 @@ export const PlayScreen: React.FC<PlayScreenProps> = ({
           </button>
         </div>
         <GameInfoSidebar 
-          sente={{ name: isSpectator ? 'SENTE' : 'Player', rank: '10K', time: formatClock(activeClocks.sente) }}
-          gote={{ name: gameMode === 'pvc' || gameMode === 'quick' ? 'NSHOGI (CPU)' : 'GOTE', rank: cpuConfig.label, time: formatClock(activeClocks.gote) }}
+          sente={{ name: isSpectator ? 'SENTE' : 'Player', rank: '10K', time: senteClock.time, timeTone: senteClock.timeTone }}
+          gote={{ name: gameMode === 'pvc' || gameMode === 'quick' ? 'NSHOGI (CPU)' : 'GOTE', rank: cpuConfig.label, time: goteClock.time, timeTone: goteClock.timeTone }}
           turn={turn}
           moveHistory={moveHistory}
         />
@@ -778,8 +839,9 @@ const withTimeout = <T,>(promise: Promise<T>, timeoutMs: number): Promise<T> =>
     );
   });
 
-const INITIAL_PVC_CLOCK_MS = 10 * 60 * 1000;
-const INVADER_PHASE_MS = 15 * 1000;
+const INITIAL_PVC_CLOCK_MS = MOBILE_DEFAULT_TIME_CONTROL.baseMinutes * 60 * 1000;
+const BYOYOMI_MS = MOBILE_DEFAULT_TIME_CONTROL.byoYomiSeconds * 1000;
+const INVADER_PHASE_MS = MOBILE_DEFAULT_TIME_CONTROL.invaderPhaseMs;
 type TrapSetupSelections = Record<Side, Record<string, number>>;
 
 const countTrapSelections = (selections: Record<string, number>) =>
@@ -842,6 +904,44 @@ const formatTimePreset = (timeLimitMs: number, byoYomiMs: number) => {
     return `${baseMinutes}分 + 秒読み${Math.round(byoYomiMs / 1000)}秒`;
   }
   return `${baseMinutes}分切れ負け`;
+};
+
+const formatLocalTimeControlLabel = (variantKey: VariantKey) =>
+  variantKey === 'invader'
+    ? `インベーダー ${Math.round(INVADER_PHASE_MS / 1000)}秒フェーズ`
+    : formatTimePreset(INITIAL_PVC_CLOCK_MS, BYOYOMI_MS);
+
+const formatPhaseSeconds = (ms: number) => `${Math.max(0, ms / 1000).toFixed(1)}秒`;
+
+const formatByoyomiSeconds = (ms: number) => `${Math.max(0, Math.ceil(ms / 1000))}`;
+
+const formatLocalClockDisplay = (
+  side: Side,
+  activeSide: Side,
+  variantKey: VariantKey,
+  ms: number,
+  phase: LocalClockPhase,
+  invaderPhaseRemainingMs: number,
+) => {
+  if (variantKey === 'invader') {
+    if (side !== activeSide) {
+      return { time: '---', timeTone: 'normal' as const };
+    }
+    return {
+      time: formatPhaseSeconds(invaderPhaseRemainingMs),
+      timeTone: invaderPhaseRemainingMs <= 5_000 ? 'critical' as const : 'normal' as const,
+    };
+  }
+  if (phase === 'byoyomi') {
+    return {
+      time: formatByoyomiSeconds(ms),
+      timeTone: ms <= 10_000 ? 'critical' as const : 'byoyomi' as const,
+    };
+  }
+  return {
+    time: formatClock(ms),
+    timeTone: ms <= 30_000 ? 'low' as const : 'normal' as const,
+  };
 };
 
 const formatPvpConnectionLabel = (status: PvpConnectionStatus) => {

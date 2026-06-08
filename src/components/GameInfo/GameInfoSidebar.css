@@ -35,6 +35,18 @@
   line-height: 1;
 }
 
+.timer-display.byoyomi {
+  color: #ffe29a;
+}
+
+.timer-display.low {
+  color: #ffcf66;
+}
+
+.timer-display.critical {
+  color: #ff8d8d;
+}
+
 .player-box.active .timer-display {
   color: #fff;
   text-shadow: 0 0 15px rgba(255, 255, 255, 0.2);

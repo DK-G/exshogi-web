@@ -214,3 +214,8 @@
 - Web の罠設定は単一 `trapCount` 中心。正の保存型は `senteTrapCount` / `goteTrapCount` を持つため、独立罠数の完全互換は未達。PvP server public state も相手側 trap selections を返さないため、Web 単体では相手罠の盤面表示まで同期できない。
 - Web では観戦リアクションを扱わない方針のまま。Workers 側は `reaction` message と rate limit を持つため、非対応を維持するなら Web 側の型/API表示で誤解が出ないよう整理する。
 - 次に差異を縮める優先順は、1) Web ローカル時計を `3分 + 秒読み30秒` / Invader `15秒` に合わせる、2) Invader PvP のフェーズ同期を正に寄せる、3) 棋譜/StoredResult 差分を MVP 制限事項として整理する、4) 独立罠数と trap setup state の扱いを整理する。
+
+## 2026-06-09 Codex stage2 メモ
+- `PlayScreen` の PvC / Quick ローカル時計をモバイル既定値へ合わせ、通常バリアントは `3分 + 秒読み30秒`、インベーダーは `15秒フェーズ` の表示と進行に更新した。
+- 秒読み突入後は active side を秒表示へ切り替え、着手後に 30 秒へ戻すようにした。30 秒未満の main time と 10 秒未満の byoyomi は sidebar で警告色にする。
+- インベーダーは active side のみ `0.1秒` 単位でフェーズ秒表示し、非 active side は `---` を表示する。PvP の protocol/server 側フェーズ同期は引き続き未対応で、今回の修正対象外。
