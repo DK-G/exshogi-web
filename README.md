@@ -1,7 +1,7 @@
 # EX Shogi Web
 
 Browser implementation of EX Shogi. The canonical product is the mobile app in
-`C:\dev\portfolio\mobile\exshogi`; this project follows mobile rules,
+`D:\dev\repos\exshogi-app`; this project follows mobile rules,
 defaults, PvP protocol, replay metadata, and effect behavior unless a web-only
 deviation is explicitly approved.
 
@@ -27,7 +27,7 @@ npm run dev
 The app uses linked packages from:
 
 ```text
-C:\dev\portfolio\mobile\exshogi\packages
+D:\dev\repos\exshogi-app\packages
 ```
 
 If shared engine behavior changes in the mobile repo, rebuild and recheck this
@@ -109,11 +109,11 @@ APIs used by the web client. This is the browser-side equivalent of checking
 
 Before changing Web behavior, inspect the mobile implementation first:
 
-- Defaults/settings: `C:\dev\portfolio\mobile\exshogi\apps\mobile-rn\src\constants`
-- PvP room creation: `C:\dev\portfolio\mobile\exshogi\apps\mobile-rn\src\hooks\matching`
-- PvP server/protocol: `C:\dev\portfolio\mobile\exshogi\workers\src`
-- Engine rules: `C:\dev\portfolio\mobile\exshogi\packages\engine-core`
-- Replay/JKF: `C:\dev\portfolio\mobile\exshogi\packages\notation`
-- Effects/UI/audio: `C:\dev\portfolio\mobile\exshogi\apps\mobile-rn\src\components`
+- Defaults/settings: `D:\dev\repos\exshogi-app\apps\mobile-rn\src\constants`
+- PvP room creation: `D:\dev\repos\exshogi-app\apps\mobile-rn\src\hooks\matching`
+- PvP server/protocol: `D:\dev\repos\exshogi-app\workers\src`
+- Engine rules: `D:\dev\repos\exshogi-app\packages\engine-core`
+- Replay/JKF: `D:\dev\repos\exshogi-app\packages\notation`
+- Effects/UI/audio: `D:\dev\repos\exshogi-app\apps\mobile-rn\src\components`
 
 Record remaining gaps in `task.md` instead of silently diverging from mobile.

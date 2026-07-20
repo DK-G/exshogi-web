@@ -126,7 +126,7 @@
 - Web版は MVP として、棋譜再生・詳細な棋譜管理・モバイル保存棋譜の完全互換などのリッチ機能を制限する。Result の JKF 互換プレビューと最低限のメタデータ確認を優先し、完全な Replay / Records 互換は将来設計扱いにする。
 - モバイル保存棋譜との差分整理、棋譜 URL、リプレイ画面は実装前に案を確認する。
 - 実機が必要な検証は `Device-Dependent Checks` に残し、実機なしで進められる実装タスクとは分ける。
-- 今後は `C:\dev\portfolio\web\exshogi-web` 直下で会話を起動してもよい。ただし仕様の正は `C:\dev\portfolio\mobile\exshogi` のモバイル版とし、Web はモバイル版への追従実装として扱う。
+- 今後は `D:\dev\repos\exshogi-web` 直下で会話を起動してもよい。ただし仕様の正は `D:\dev\repos\exshogi-app` のモバイル版とし、Web はモバイル版への追従実装として扱う。
 - デフォルト時間は通常3分、切れたら一手30秒。インベーダーは1フェーズ15秒。
 - スマホアプリとブラウザが同一 PvP サーバ・同一ルーム・同一 protocol で対戦できることを最重要の互換条件にする。
 
@@ -205,7 +205,7 @@
 - CORS と WebSocket origin は production web origin と明示した local development origin のみ許可し、認証付き room API で wildcard CORS に依存しない方針にした。
 
 ## 2026-05-20 exshogi 差異確認メモ
-- 正は `C:\dev\portfolio\mobile\exshogi` の現在の作業ツリーとする。特に `apps/mobile-rn/src/constants/settings.ts`、`apps/mobile-rn/src/constants/pvc-setup.ts`、`apps/mobile-rn/src/hooks/useLocalClock.ts`、`apps/mobile-rn/src/storage/game/types.ts`、`workers/src/types.ts` を参照する。
+- 正は `D:\dev\repos\exshogi-app` の現在の作業ツリーとする。特に `apps/mobile-rn/src/constants/settings.ts`、`apps/mobile-rn/src/constants/pvc-setup.ts`、`apps/mobile-rn/src/hooks/useLocalClock.ts`、`apps/mobile-rn/src/storage/game/types.ts`、`workers/src/types.ts` を参照する。
 - ルール定義は Web が `@exshogi/engine-core` を link しており、5バリアントの `VariantSpec`、CPU Lv1-5、デフォルトバリアントは概ね一致している。差異対応は UI/運用層を優先する。
 - Web の PvC / Quick 時計は `src/screens/Play/PlayScreen.tsx` で `10分切れ負け` 固定になっている。正は通常 `3分 + 秒読み30秒`、インベーダーは `15秒フェーズ`。Web ロビーの作成プリセットは正に寄っているが、対局画面のローカル時計は未追従。
 - Web の秒読み表示・外部クロック同期は、モバイル側の `useLocalClock.ts` / `DigitalClock.tsx` の最新挙動に未追従。モバイル側は byoyomi phase、低時間表示、Invader 秒表示、PvP 外部クロック補正を持つ。
