@@ -20,8 +20,10 @@ routine bodies into this project.
 Read local files in this order:
 
 1. `task.md` for the current work and handoff notes
-2. `plan.md` for scope, constraints, and non-goals
-3. `roadmap.md` for future work
+2. `DIRECTION.md` for core design pillars and non-goals (Must-read)
+3. `CHECKS.md` for acceptance criteria and quality gates (Must-read)
+4. `plan.md` for scope, constraints, and non-goals
+5. `roadmap.md` for future work
 4. Mobile source files under `C:\dev\portfolio\mobile\exshogi` when behavior,
    defaults, protocol, rules, animation, replay, or PvP compatibility is in
    scope

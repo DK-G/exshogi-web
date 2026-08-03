@@ -15,6 +15,7 @@ import { clearPvpSession, savePvpSession } from '../../services/pvp/storage';
 import type { RoomSnapshot } from '../../services/pvp/types';
 import './PlayScreen.css';
 import { MOBILE_DEFAULT_TIME_CONTROL, MOBILE_DEFAULT_TRAP_COUNT } from '../../domain/mobileParity';
+import { registerWebMcp, unregisterWebMcp } from '../../services/webMcp';
 
 interface PlayScreenProps {
   gameMode: 'quick' | 'pvp' | 'pvc';
@@ -159,6 +160,22 @@ export const PlayScreen: React.FC<PlayScreenProps> = ({
     if (!pvpSession?.snapshot.moves.length) return;
     syncFromUsiHistory(pvpSession.snapshot.moves);
   }, [gameMode, pvpSession?.snapshot.moves, syncFromUsiHistory]);
+
+  useEffect(() => {
+    registerWebMcp(() => ({
+      variantKey,
+      gameMode,
+      turn,
+      isFinished: !!result,
+      winner: result?.winner ?? null,
+      board,
+      capturedPieces,
+      gameState,
+    }));
+    return () => {
+      unregisterWebMcp();
+    };
+  }, [board, capturedPieces, turn, result, variantKey, gameMode, gameState]);
 
   useEffect(() => {
     if (variantKey !== 'invader' || result) return;

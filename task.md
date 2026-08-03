@@ -219,3 +219,11 @@
 - `PlayScreen` の PvC / Quick ローカル時計をモバイル既定値へ合わせ、通常バリアントは `3分 + 秒読み30秒`、インベーダーは `15秒フェーズ` の表示と進行に更新した。
 - 秒読み突入後は active side を秒表示へ切り替え、着手後に 30 秒へ戻すようにした。30 秒未満の main time と 10 秒未満の byoyomi は sidebar で警告色にする。
 - インベーダーは active side のみ `0.1秒` 単位でフェーズ秒表示し、非 active side は `---` を表示する。PvP の protocol/server 側フェーズ同期は引き続き未対応で、今回の修正対象外。
+
+## 2026-06-24 WebMCP 試験導入 & 開発規律適用 メモ
+- `exshogi-web` における開発規律 (`DIRECTION.md`, `CHECKS.md`) を適用し、`AGENTS.md` の「Local Read Order」へこれらを追記して必読化。
+- WebMCP の読み取り専用ツール (`exshogi_get_game_info`, `exshogi_get_board_state`) を `src/services/webMcp.ts` として実装。
+- `PlayScreen.tsx` にて React の対局ステート（board, capturedPieces, turn, result, gameState）を WebMCP にバインド。
+- 動作検証のため、モック環境テスト (`scratch/webmcp-test.ts`) を構築し、情報取得ツールの動作および書き込みアクション（`exshogi_make_move` 等）が一切登録されていないこと（読み取り専用であること）を検証済み。
+- 依存関係である `@exshogi/engine-core` などの型定義ファイル解決のため、`D:\dev\worktrees\mobile\exshogi` に対する Junction リンクを `C:\dev\portfolio\mobile\exshogi` 宛てに構築した上で `pnpm build` が無事通過することを確認。
+
