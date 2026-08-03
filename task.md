@@ -204,3 +204,9 @@
 - Web の罠設定は単一 `trapCount` 中心。正の保存型は `senteTrapCount` / `goteTrapCount` を持つため、独立罠数の完全互換は未達。PvP server public state も相手側 trap selections を返さないため、Web 単体では相手罠の盤面表示まで同期できない。
 - Web では観戦リアクションを扱わない方針のまま。Workers 側は `reaction` message と rate limit を持つため、非対応を維持するなら Web 側の型/API表示で誤解が出ないよう整理する。
 - 次に差異を縮める優先順は、1) Web ローカル時計を `3分 + 秒読み30秒` / Invader `15秒` に合わせる、2) Invader PvP のフェーズ同期を正に寄せる、3) 棋譜/StoredResult 差分を MVP 制限事項として整理する、4) 独立罠数と trap setup state の扱いを整理する。
+
+## 2026-06-02 ブランド方針整理メモ
+- ブランドコンセプトを「また、誘える将棋」として整理し、`docs/brand-design-direction.md` を追加した。
+- Web の盤面・駒は本格的な将棋らしさを維持しつつ、Home / ModeSelect / PvP Lobby / Result / Share など盤外体験は温かく柔らかい方向へ寄せる方針にした。
+- 黒漆・金箔・高級和風は補助表現へ下げ、和紙・淡い木目・柔らかい余白・誘いやすいコピーを主軸にする。
+- 実装は未着手。次回 UI 変更時は `spec.md` と `docs/brand-design-direction.md` を基準に、モバイル版の同方針と整合させる。
