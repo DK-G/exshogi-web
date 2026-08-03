@@ -296,9 +296,9 @@ export const PvpLobbyScreen: React.FC<PvpLobbyScreenProps> = ({
           戻る
         </button>
         <div>
-          <p className="mode-kicker">PVP LOBBY</p>
-          <h2>{variantMeta.label}</h2>
-          <p>{status}</p>
+          <p className="mode-kicker">友だちと遊ぶ</p>
+          <h2>{variantMeta.label} の部屋</h2>
+          <p>{status}。部屋をつくるか、合言葉で合流できます。</p>
         </div>
         <button className="pvp-refresh-button" onClick={() => auth && refreshRooms(auth)} disabled={!auth}>
           更新
@@ -332,6 +332,10 @@ export const PvpLobbyScreen: React.FC<PvpLobbyScreenProps> = ({
 
       <div className="pvp-lobby-actions">
         <div className="pvp-create-panel">
+          <div className="pvp-panel-heading">
+            <p className="mode-kicker">部屋をつくる</p>
+            <h3>誘いやすい設定で始める</h3>
+          </div>
           <div className="pvp-create-grid">
             <label>
               <span>持ち時間</span>
@@ -371,7 +375,7 @@ export const PvpLobbyScreen: React.FC<PvpLobbyScreenProps> = ({
                 checked={lockedRoomEnabled}
                 onChange={(event) => setLockedRoomEnabled(event.target.checked)}
               />
-              鍵付き
+              合言葉を使う
             </label>
             <input
               className="pvp-password-input"
@@ -379,7 +383,7 @@ export const PvpLobbyScreen: React.FC<PvpLobbyScreenProps> = ({
               value={roomPassword}
               onChange={(event) => setRoomPassword(event.target.value)}
               disabled={!lockedRoomEnabled}
-              placeholder="ルームキー"
+              placeholder="合言葉"
             />
             <label className="pvp-lock-toggle">
               <input
@@ -390,7 +394,7 @@ export const PvpLobbyScreen: React.FC<PvpLobbyScreenProps> = ({
               観戦可
             </label>
             <button onClick={createRoom} disabled={!auth}>
-              {lockedRoomEnabled ? '鍵付きルームを作成' : '公開ルームを作成'}
+              {lockedRoomEnabled ? '合言葉つきで部屋をつくる' : '部屋をつくる'}
             </button>
           </div>
           <p className="pvp-create-note">
@@ -403,19 +407,19 @@ export const PvpLobbyScreen: React.FC<PvpLobbyScreenProps> = ({
         <input
           value={directRoomId}
           onChange={(event) => setDirectRoomId(event.target.value)}
-          placeholder="非公開ルームID"
+          placeholder="部屋ID"
         />
         <input
           type="password"
           value={directPassword}
           onChange={(event) => setDirectPassword(event.target.value)}
-          placeholder="ルームキー"
+          placeholder="合言葉"
         />
         <button
           onClick={() => joinRoom(directRoomId.trim(), directPassword)}
           disabled={!auth || !directRoomId.trim()}
         >
-          IDで参加
+          合流する
         </button>
       </div>
 
@@ -464,17 +468,17 @@ export const PvpLobbyScreen: React.FC<PvpLobbyScreenProps> = ({
           </div>
           <div className="pvp-room-controls">
             <button onClick={toggleReady}>
-              {currentSeatReady ? 'READY解除' : 'READY'}
+              {currentSeatReady ? '準備を戻す' : '準備できた'}
             </button>
             <button onClick={startGame} disabled={!canStart || !isHostSeat}>
-              START
+              対局へ
             </button>
             <button className="danger" onClick={leaveRoom}>
               {isHostSeat ? '解散/退出' : '退出'}
             </button>
           </div>
           {!isHostSeat && canStart && (
-            <p className="pvp-start-note">ホストの START を待っています。</p>
+            <p className="pvp-start-note">部屋をつくった人の開始を待っています。</p>
           )}
         </div>
       )}
@@ -505,14 +509,14 @@ export const PvpLobbyScreen: React.FC<PvpLobbyScreenProps> = ({
                   }}
                   disabled={room.status !== 'waiting'}
                 >
-                  参加
+                  合流
                 </button>
                 <button
                   onClick={() => spectateRoom(room.roomId)}
                   disabled={room.status !== 'playing' || room.hasPassword}
                   title={room.hasPassword ? '鍵付きルームは観戦できません' : undefined}
                 >
-                  観戦
+                  観戦する
                 </button>
               </div>
             </div>
@@ -523,19 +527,19 @@ export const PvpLobbyScreen: React.FC<PvpLobbyScreenProps> = ({
       {joinTarget && (
         <div className="pvp-password-dialog" role="dialog" aria-modal="true">
           <div>
-            <h3>ルームキー入力</h3>
+            <h3>合言葉で合流</h3>
             <p>{joinTarget.roomId}</p>
             <input
               type="password"
               value={joinPassword}
               onChange={(event) => setJoinPassword(event.target.value)}
               autoFocus
-              placeholder="ルームキー"
+              placeholder="合言葉"
             />
             <div className="pvp-dialog-actions">
               <button onClick={() => setJoinTarget(null)}>キャンセル</button>
               <button onClick={() => joinRoom(joinTarget.roomId, joinPassword)}>
-                参加
+                合流する
               </button>
             </div>
           </div>
@@ -565,7 +569,7 @@ const SeatPanel: React.FC<{
     <div className={`${ready ? 'ready' : ''} ${isCurrent ? 'current' : ''} ${occupied ? 'occupied' : 'empty'}`}>
       <span>{side === 'sente' ? '先手' : '後手'}{isCurrent ? ' / あなた' : ''}</span>
       <b>{occupied ? '参加中' : '空席'}</b>
-      <small>{occupied ? ready ? 'READY' : 'WAIT' : '参加待ち'}</small>
+      <small>{occupied ? ready ? '準備OK' : '準備中' : '参加待ち'}</small>
     </div>
   );
 };
@@ -616,8 +620,8 @@ const describeRoomStatus = (snapshot: RoomSnapshot, currentSeat?: 'sente' | 'got
   const bothOccupied = snapshot.seats.sente?.occupied && snapshot.seats.gote?.occupied;
   if (!bothOccupied) return '相手の参加を待っています';
   if (!senteReady || !goteReady) {
-    if (currentSeat && !snapshot.seats[currentSeat]?.ready) return 'READY を押してください';
-    return '相手の READY を待っています';
+    if (currentSeat && !snapshot.seats[currentSeat]?.ready) return '準備できたら押してください';
+    return '相手の準備を待っています';
   }
-  return currentSeat === 'sente' ? 'START できます' : 'ホストの START を待っています';
+  return currentSeat === 'sente' ? '対局へ進めます' : '部屋をつくった人の開始を待っています';
 };

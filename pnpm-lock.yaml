@@ -9,14 +9,14 @@ importers:
   .:
     dependencies:
       '@exshogi/engine-clocks':
-        specifier: link:..\..\mobile\exshogi\packages\engine-clocks
-        version: link:../../mobile/exshogi/packages/engine-clocks
+        specifier: link:C:/dev/portfolio/mobile/exshogi/packages/engine-clocks
+        version: link:C:/dev/portfolio/mobile/exshogi/packages/engine-clocks
       '@exshogi/engine-core':
-        specifier: link:..\..\mobile\exshogi\packages\engine-core
-        version: link:../../mobile/exshogi/packages/engine-core
+        specifier: link:C:/dev/portfolio/mobile/exshogi/packages/engine-core
+        version: link:C:/dev/portfolio/mobile/exshogi/packages/engine-core
       '@exshogi/notation':
-        specifier: link:..\..\mobile\exshogi\packages\notation
-        version: link:../../mobile/exshogi/packages/notation
+        specifier: link:C:/dev/portfolio/mobile/exshogi/packages/notation
+        version: link:C:/dev/portfolio/mobile/exshogi/packages/notation
       react:
         specifier: ^19.2.5
         version: 19.2.5

@@ -204,3 +204,27 @@
 - Web の罠設定は単一 `trapCount` 中心。正の保存型は `senteTrapCount` / `goteTrapCount` を持つため、独立罠数の完全互換は未達。PvP server public state も相手側 trap selections を返さないため、Web 単体では相手罠の盤面表示まで同期できない。
 - Web では観戦リアクションを扱わない方針のまま。Workers 側は `reaction` message と rate limit を持つため、非対応を維持するなら Web 側の型/API表示で誤解が出ないよう整理する。
 - 次に差異を縮める優先順は、1) Web ローカル時計を `3分 + 秒読み30秒` / Invader `15秒` に合わせる、2) Invader PvP のフェーズ同期を正に寄せる、3) 棋譜/StoredResult 差分を MVP 制限事項として整理する、4) 独立罠数と trap setup state の扱いを整理する。
+
+## 2026-06-03 ブランド刷新実装メモ
+- `docs/brand-design-direction.md` を追加し、「また、誘える将棋」「盤上は本格、盤外は誘いやすい」を Web 側のブランド方針として参照できるようにした。
+- Home / ModeSelect / PvP Lobby / Result の盤外 UI を、黒漆・金箔主役から和紙、淡い木目、柔らかい余白中心へ寄せた。盤面、駒、ルール、エンジン、PvP protocol は変更していない。
+- Home の `ZEN ARCHIVE EDITION`、主導線の `PvP MATCH` / `対人戦開始` / `CPU戦開始` を外し、「友だちと遊ぶ」「部屋をつくる」「合言葉で合流」「もう一局誘う」寄りのコピーへ更新した。
+- PvP Lobby は「部屋」「合言葉」「合流」「準備できた」など、友だちを誘いやすい表現へ変更した。READY / START は protocol ではなく画面コピーのみ弱めた。
+- Result は PvP 対局後の主ボタンを「もう一局誘う」にし、終局後の再戦・誘うループを強めた。観戦者は引き続き観戦ロビーへ戻る。
+- D worktree では既存の `link:..\..\mobile...` が実在しないため、`package.json` / `pnpm-lock.yaml` の linked package 参照を `C:/dev/portfolio/mobile/exshogi/packages/...` に補正した。
+- 検証: `pnpm run lint` 成功、`pnpm run build` 成功。Vite dev server は `http://127.0.0.1:5183` で HTTP 200 を確認した。
+
+## 2026-06-03 play.exshogi.com 公開メモ
+- `wrangler.jsonc` を追加し、Workers Static Assets で `dist` を配信する `exshogi-web` Worker を作成した。
+- `play.exshogi.com` を Worker Custom Domain として割り当てた。既存の `exshogi.com/*` / `www.exshogi.com/*` PvP Worker ルートとは別ホストのため衝突させない。
+- 公開 URL: `https://play.exshogi.com`
+- fallback URL: `https://exshogi-web.liminality-3110.workers.dev`
+- smoke script の `ws` fallback が D worktree では旧相対パスを参照していたため、実在する `C:/dev/portfolio/mobile/exshogi/node_modules/ws/wrapper.mjs` へ補正した。
+- 検証: `npm run lint` 成功、`npm run build` 成功、`wrangler deploy` 成功、`https://play.exshogi.com` HTTP 200、`npm run pvp:smoke -- https://www.exshogi.com` 成功。
+- Codex in-app Browser は node_repl kernel 起動時に失敗したため、ブラウザ描画の目視確認は未実施。
+
+## 2026-06-05 時計処理モバイル追従メモ
+- Web の PvC / Quick ローカル時計をモバイル既定の通常3分+秒読み30秒へ変更した。3分が切れた時点では負けにせず秒読みへ入り、秒読み中は着手ごとに30秒へ戻す。
+- インベーダーは通常時計を進めず、モバイル既定の1フェーズ15秒カウントダウンで自動的に相手フェーズへ交代する表示にした。
+- インベーダー対局中の手動「フェーズ終了」ボタンは不要指定に合わせて削除した。
+- 検証: `npm run lint` 成功、`npm run build` 成功。

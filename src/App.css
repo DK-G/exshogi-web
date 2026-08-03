@@ -9,8 +9,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(5px);
+  background-color: rgba(255, 251, 245, 0.78);
+  border-bottom: 1px solid rgba(108, 82, 43, 0.12);
+  backdrop-filter: blur(10px);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -23,15 +24,15 @@
 
 .logo-text span {
   font-size: 0.8rem;
-  opacity: 0.5;
+  opacity: 0.55;
   margin-left: 0.5rem;
 }
 
 .engine-status {
   font-family: var(--font-accent);
   font-size: 0.7rem;
-  letter-spacing: 0.1em;
-  color: var(--color-gold);
+  letter-spacing: 0;
+  color: var(--color-success);
 }
 
 main {
@@ -42,6 +43,7 @@ main {
   padding: 1rem;
   text-align: center;
   font-size: 0.6rem;
-  opacity: 0.3;
-  letter-spacing: 0.2em;
+  color: var(--color-muted-ink);
+  opacity: 0.7;
+  letter-spacing: 0;
 }

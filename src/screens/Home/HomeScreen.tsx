@@ -29,31 +29,32 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
             </div>
           </div>
           <h2 className="subtitle">EX SHOGI</h2>
-          <p className="tagline">ZEN ARCHIVE EDITION</p>
+          <p className="tagline">また、誘える将棋</p>
+          <p className="home-lead">盤上は本格、盤外は誘いやすい。友だちと同じ部屋に集まって、変則将棋をもう一局。</p>
         </div>
 
         <nav className="home-nav-grid">
           <button className="nav-item-large quick-start" onClick={onStartQuick}>
             <div className="nav-text-group">
               <span className="nav-label">今すぐ遊ぶ</span>
-              <span className="nav-sub">QUICK START</span>
+              <span className="nav-sub">まずは一局</span>
             </div>
           </button>
           
           <div className="secondary-actions">
             <button className="nav-item-compact pvp" onClick={onStartPvp}>
-              <span className="nav-label">対人戦開始</span>
-              <span className="nav-sub">PvP MATCH</span>
+              <span className="nav-label">友だちと遊ぶ</span>
+              <span className="nav-sub">部屋をつくる</span>
             </button>
             
             <button className="nav-item-compact pvc" onClick={onStartPvc}>
-              <span className="nav-label">CPU戦開始</span>
-              <span className="nav-sub">PvC PRACTICE</span>
+              <span className="nav-label">CPUと練習</span>
+              <span className="nav-sub">ひとりで試す</span>
             </button>
             
             <button className="nav-item-compact tutorial" onClick={onStartTutorial}>
               <span className="nav-label">チュートリアル</span>
-              <span className="nav-sub">TUTORIAL</span>
+              <span className="nav-sub">遊び方を見る</span>
             </button>
           </div>
         </nav>

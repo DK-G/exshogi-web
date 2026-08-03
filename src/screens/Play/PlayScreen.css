@@ -491,7 +491,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: rgba(0, 0, 0, 0.62);
+  background: rgba(46, 31, 14, 0.38);
   backdrop-filter: blur(4px);
 }
 
@@ -501,9 +501,9 @@
   overflow: auto;
   padding: 2rem;
   background:
-    linear-gradient(180deg, rgba(34, 34, 34, 0.96), rgba(10, 10, 10, 0.96)),
+    linear-gradient(180deg, rgba(255, 251, 245, 0.98), rgba(246, 234, 215, 0.98)),
     var(--bg-washi);
-  border: 1px solid rgba(212, 175, 55, 0.38);
+  border: 1px solid rgba(108, 82, 43, 0.2);
   box-shadow: var(--shadow-premium);
   text-align: center;
 }
@@ -522,8 +522,16 @@
 }
 
 .result-reason {
-  color: rgba(252, 250, 242, 0.76);
-  margin-bottom: 1.4rem;
+  color: var(--color-muted-ink);
+  margin-bottom: 0.6rem;
+}
+
+.result-invite-copy {
+  margin: 0 auto 1.4rem;
+  max-width: 420px;
+  color: var(--color-muted-ink);
+  font-size: 0.88rem;
+  line-height: 1.7;
 }
 
 .result-summary {
@@ -537,7 +545,7 @@
   padding: 0.5rem;
   background: rgba(212, 175, 55, 0.1);
   border: 1px solid rgba(212, 175, 55, 0.18);
-  color: var(--color-gold-light);
+  color: #725313;
   font-size: 0.75rem;
   font-weight: 800;
 }
@@ -553,12 +561,12 @@
 }
 
 .cpu-fallback-summary b {
-  color: var(--color-gold-light);
+  color: #725313;
   font-size: 0.78rem;
 }
 
 .cpu-fallback-summary span {
-  color: rgba(252, 250, 242, 0.78);
+  color: var(--color-muted-ink);
   font-size: 0.76rem;
   word-break: break-word;
 }
@@ -571,7 +579,7 @@
 .kifu-preview {
   margin-bottom: 1.5rem;
   padding: 1rem;
-  background: rgba(0, 0, 0, 0.24);
+  background: rgba(255, 255, 255, 0.54);
   border: 1px solid rgba(212, 175, 55, 0.18);
   text-align: left;
 }
@@ -579,7 +587,7 @@
 .true-king-reveal {
   margin-bottom: 1.5rem;
   padding: 1rem;
-  background: rgba(108, 20, 20, 0.18);
+  background: rgba(164, 22, 26, 0.08);
   border: 1px solid rgba(212, 175, 55, 0.18);
   text-align: left;
 }
@@ -593,7 +601,7 @@
 .true-king-reveal p {
   margin: 0;
   padding-left: 1.1rem;
-  color: rgba(252, 250, 242, 0.82);
+  color: var(--color-sumi);
   font-size: 0.82rem;
 }
 
@@ -615,7 +623,7 @@
 
 .kifu-header span,
 .jkf-details summary {
-  color: rgba(252, 250, 242, 0.68);
+  color: var(--color-muted-ink);
   font-size: 0.75rem;
 }
 
@@ -628,12 +636,12 @@
 }
 
 .kifu-meta dt {
-  color: rgba(252, 250, 242, 0.56);
+  color: var(--color-muted-ink);
 }
 
 .kifu-meta dd {
   margin: 0;
-  color: var(--color-washi);
+  color: var(--color-sumi);
   word-break: break-all;
 }
 
@@ -645,7 +653,7 @@
 
 .kifu-moves p {
   margin: 0;
-  color: rgba(252, 250, 242, 0.68);
+  color: var(--color-muted-ink);
   font-size: 0.8rem;
 }
 
@@ -656,22 +664,22 @@
   align-items: center;
   min-height: 28px;
   padding: 0.25rem 0.4rem;
-  background: rgba(252, 250, 242, 0.05);
+  background: rgba(255, 251, 245, 0.72);
   font-size: 0.78rem;
 }
 
 .kifu-move-row span {
-  color: rgba(252, 250, 242, 0.54);
+  color: var(--color-muted-ink);
 }
 
 .kifu-move-row b {
   font-weight: 700;
-  color: var(--color-washi);
+  color: var(--color-sumi);
 }
 
 .kifu-move-row em {
   grid-column: 2 / -1;
-  color: rgba(212, 175, 55, 0.78);
+  color: #725313;
   font-size: 0.7rem;
   font-style: normal;
 }

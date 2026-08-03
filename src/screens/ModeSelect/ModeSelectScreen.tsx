@@ -22,15 +22,15 @@ interface ModeSelectScreenProps {
 const MODE_LABELS: Record<GameMode, { title: string; subtitle: string }> = {
   quick: {
     title: '今すぐ遊ぶ',
-    subtitle: 'オンライン準備中はCPU練習として開始します',
+    subtitle: 'すぐ一局。オンライン準備中はCPU練習として始めます',
   },
   pvp: {
-    title: '対人戦',
-    subtitle: '選んだルールでロビー作成・参加へ進みます',
+    title: '友だちと遊ぶ',
+    subtitle: '遊びたいルールを選んで、部屋づくりや合言葉での合流へ進みます',
   },
   pvc: {
-    title: 'CPU戦',
-    subtitle: '選んだルールでCPU相手に練習します',
+    title: 'CPUと練習',
+    subtitle: '誘う前に、気になる変則ルールを一人で試せます',
   },
 };
 
@@ -50,7 +50,7 @@ export const ModeSelectScreen: React.FC<ModeSelectScreenProps> = ({
           戻る
         </button>
         <div>
-          <p className="mode-kicker">VARIANT SELECT</p>
+          <p className="mode-kicker">遊び方を選ぶ</p>
           <h2>{mode.title}</h2>
           <p className="mode-subtitle">{mode.subtitle}</p>
         </div>
@@ -59,7 +59,7 @@ export const ModeSelectScreen: React.FC<ModeSelectScreenProps> = ({
       {showCpuLevel && (
         <div className="cpu-level-panel" aria-label="CPU level">
           <div>
-            <p className="mode-kicker">CPU LEVEL</p>
+            <p className="mode-kicker">練習相手</p>
             <h3>CPU レベル</h3>
           </div>
           <div className="cpu-level-options">
@@ -91,6 +91,7 @@ export const ModeSelectScreen: React.FC<ModeSelectScreenProps> = ({
               className="variant-card"
               onClick={() => onSelect(key, cpuLevel)}
             >
+              <span className="variant-invite">このルールで囲む</span>
               <span className="variant-name">{meta.label}</span>
               <span className="variant-description">{meta.description}</span>
               <span className="variant-badges">

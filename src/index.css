@@ -6,18 +6,24 @@
 }
 
 :root {
-  /* Colors - Zen Archive Palette */
-  --color-lacquer: #0a0a0a;
-  --color-urushi-red: #800000;
+  /* Colors - warm invitation palette */
+  --color-lacquer: #0d0d0d;
+  --color-urushi-red: #a4161a;
   --color-gold: #d4af37;
   --color-gold-light: #f1d592;
   --color-washi: #fcfaf2;
+  --color-paper: #fff8f0;
+  --color-soft-surface: #fffbf5;
   --color-kaya: #e3c08d;
+  --color-kaya-light: #e8d2a1;
+  --color-sumi: #1c1c1c;
+  --color-muted-ink: #67594a;
+  --color-success: #4f7942;
   
   /* Tonal Surfaces (No borders, just depth) */
-  --surface-low: #141414;
-  --surface-base: #1e1e1e;
-  --surface-high: #2a2a2a;
+  --surface-low: #fffbf5;
+  --surface-base: #fff8f0;
+  --surface-high: #f4ead9;
   
   /* Textures */
   --bg-urushi: url('/src/assets/urushi.png');
@@ -35,8 +41,9 @@
   --spacing-ma-lg: 3rem;
 
   /* Aesthetics */
-  --radius-sharp: 0px;
-  --shadow-premium: 0 20px 40px rgba(0, 0, 0, 0.6);
+  --radius-sharp: 8px;
+  --shadow-premium: 0 18px 38px rgba(70, 45, 18, 0.14);
+  --shadow-focus: 0 18px 42px rgba(0, 0, 0, 0.48);
 }
 
 * {
@@ -47,11 +54,13 @@
 
 body {
   font-family: var(--font-main);
-  background-color: var(--color-lacquer);
-  background-image: var(--bg-urushi);
-  background-size: cover;
+  background-color: var(--color-paper);
+  background-image:
+    linear-gradient(135deg, rgba(255, 248, 240, 0.94), rgba(252, 250, 242, 0.92)),
+    var(--bg-washi);
+  background-size: auto, 420px;
   background-attachment: fixed;
-  color: var(--color-washi);
+  color: var(--color-sumi);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   margin: 0;
@@ -72,35 +81,37 @@ body::after {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: var(--bg-washi);
-  opacity: 0.05;
+  background-image:
+    linear-gradient(90deg, rgba(227, 192, 141, 0.08) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(227, 192, 141, 0.05) 1px, transparent 1px);
+  background-size: 72px 72px;
+  opacity: 0.55;
   pointer-events: none;
   z-index: 9999;
 }
 
 h1, h2, h3 {
   font-family: var(--font-accent);
-  text-transform: uppercase;
-  letter-spacing: 0.3em;
-  background: linear-gradient(to bottom, var(--color-gold-light), var(--color-gold));
+  text-transform: none;
+  letter-spacing: 0;
+  background: linear-gradient(135deg, var(--color-sumi), #5f4320 62%, var(--color-gold));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   font-weight: 700;
 }
 
 button {
-  background: var(--bg-kinpaku);
-  background-size: cover;
-  border: none;
+  background: linear-gradient(180deg, #fffdf8, #f2e6d4);
+  border: 1px solid rgba(108, 82, 43, 0.2);
   padding: 1rem 2rem;
-  color: var(--color-lacquer);
+  color: var(--color-sumi);
   font-family: var(--font-main);
   font-weight: bold;
   cursor: pointer;
   border-radius: var(--radius-sharp);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
+  text-transform: none;
+  letter-spacing: 0;
   position: relative;
   overflow: hidden;
 }
@@ -123,7 +134,7 @@ button:hover::before {
 
 button:hover {
   filter: brightness(1.1);
-  box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+  box-shadow: 0 10px 28px rgba(84, 55, 20, 0.16);
 }
 
 /* Premium Panels (No borders) */

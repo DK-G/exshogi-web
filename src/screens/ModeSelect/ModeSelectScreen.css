@@ -17,18 +17,19 @@
   width: 84px;
   min-height: 42px;
   padding: 0;
-  background: rgba(30, 30, 30, 0.86);
-  border: 1px solid rgba(212, 175, 55, 0.25);
-  color: var(--color-washi);
+  background: rgba(255, 251, 245, 0.86);
+  border: 1px solid rgba(108, 82, 43, 0.18);
+  color: var(--color-sumi);
   font-size: 0.8rem;
 }
 
 .mode-kicker {
-  color: var(--color-gold);
-  font-family: var(--font-accent);
+  color: var(--color-muted-ink);
+  font-family: var(--font-main);
   font-size: 0.7rem;
-  letter-spacing: 0.18em;
+  letter-spacing: 0;
   margin-bottom: 0.35rem;
+  font-weight: 900;
 }
 
 .mode-select-header h2 {
@@ -37,7 +38,7 @@
 }
 
 .mode-subtitle {
-  color: rgba(252, 250, 242, 0.76);
+  color: var(--color-muted-ink);
   font-size: 0.95rem;
 }
 
@@ -48,15 +49,15 @@
   align-items: center;
   padding: 1rem;
   margin-bottom: var(--spacing-ma-md);
-  background: rgba(20, 20, 20, 0.82);
-  border: 1px solid rgba(212, 175, 55, 0.18);
+  background: rgba(255, 251, 245, 0.86);
+  border: 1px solid rgba(108, 82, 43, 0.14);
   box-shadow: var(--shadow-premium);
 }
 
 .cpu-level-panel h3 {
   font-size: 1rem;
   margin: 0;
-  letter-spacing: 0.08em;
+  letter-spacing: 0;
 }
 
 .cpu-level-options {
@@ -68,15 +69,15 @@
 .cpu-level-button {
   min-height: 58px;
   padding: 0.45rem;
-  background: rgba(42, 42, 42, 0.92);
-  border: 1px solid rgba(212, 175, 55, 0.18);
-  color: var(--color-washi);
+  background: rgba(255, 255, 255, 0.76);
+  border: 1px solid rgba(108, 82, 43, 0.14);
+  color: var(--color-sumi);
 }
 
 .cpu-level-button.active {
-  background: var(--bg-kinpaku);
-  color: var(--color-lacquer);
-  border-color: var(--color-gold-light);
+  background: linear-gradient(180deg, rgba(232, 210, 161, 0.95), rgba(212, 175, 55, 0.48));
+  color: var(--color-sumi);
+  border-color: rgba(108, 82, 43, 0.3);
 }
 
 .cpu-level-button span,
@@ -92,12 +93,12 @@
 .cpu-level-button small {
   margin-top: 0.15rem;
   font-size: 0.62rem;
-  letter-spacing: 0.04em;
+  letter-spacing: 0;
 }
 
 .cpu-level-description {
   grid-column: 2;
-  color: rgba(252, 250, 242, 0.72);
+  color: var(--color-muted-ink);
   font-size: 0.8rem;
   line-height: 1.6;
 }
@@ -117,10 +118,10 @@
   justify-content: space-between;
   text-align: left;
   background:
-    linear-gradient(180deg, rgba(42, 42, 42, 0.96), rgba(15, 15, 15, 0.96)),
+    linear-gradient(180deg, rgba(255, 251, 245, 0.94), rgba(246, 234, 215, 0.94)),
     var(--bg-washi);
-  border: 1px solid rgba(212, 175, 55, 0.22);
-  color: var(--color-washi);
+  border: 1px solid rgba(108, 82, 43, 0.16);
+  color: var(--color-sumi);
   box-shadow: var(--shadow-premium);
 }
 
@@ -128,19 +129,25 @@
   transform: translateY(-4px);
   border-color: rgba(212, 175, 55, 0.7);
   background:
-    linear-gradient(180deg, rgba(52, 38, 22, 0.98), rgba(18, 18, 18, 0.98)),
+    linear-gradient(180deg, rgba(255, 253, 248, 0.98), rgba(240, 224, 198, 0.98)),
     var(--bg-washi);
 }
 
+.variant-invite {
+  color: var(--color-muted-ink);
+  font-size: 0.74rem;
+  font-weight: 900;
+}
+
 .variant-name {
-  color: var(--color-gold-light);
+  color: var(--color-sumi);
   font-size: 1.35rem;
   font-weight: 900;
-  letter-spacing: 0.08em;
+  letter-spacing: 0;
 }
 
 .variant-description {
-  color: rgba(252, 250, 242, 0.72);
+  color: var(--color-muted-ink);
   font-size: 0.9rem;
   line-height: 1.65;
   text-transform: none;
@@ -157,9 +164,9 @@
   padding: 0.25rem 0.45rem;
   background: rgba(212, 175, 55, 0.14);
   border: 1px solid rgba(212, 175, 55, 0.2);
-  color: var(--color-gold-light);
+  color: #725313;
   font-size: 0.68rem;
-  letter-spacing: 0.04em;
+  letter-spacing: 0;
   white-space: nowrap;
 }
 

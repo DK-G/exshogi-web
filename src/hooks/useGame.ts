@@ -23,6 +23,7 @@ import type { PieceType } from '../components/Board/types';
 
 interface UseGameOptions {
   onLocalMove?: (move: Move, usi: string) => void;
+  onMoveApplied?: (side: Side) => void;
 }
 
 export interface GameResult {
@@ -59,11 +60,13 @@ export const useGame = (
   const [startedAt] = useState(() => new Date().toISOString());
 
   const applyMove = useCallback((move: Move, label?: string, notifyLocal = false) => {
+    const movingSide = gameState.sideToMove;
     const moveLabel = label ?? generateMoveLabel(gameState, move);
     const applied = applyMoveWithWinCheck(gameState, variantSpec, move);
     setGameState(advanceTurnAfterMove(applied.next, variantSpec));
     setMoveHistory(prev => [...prev, moveLabel]);
     setMoveEffects(prev => [...prev, applied.effects ?? []]);
+    options.onMoveApplied?.(movingSide);
     if (notifyLocal) {
       options.onLocalMove?.(move, moveToUsi(move));
     }

@@ -138,7 +138,7 @@ async function resolveWebSocket() {
     const mod = await import('ws');
     return mod.WebSocket ?? mod.default;
   } catch {
-    const mod = await import('../../../mobile/exshogi/node_modules/ws/wrapper.mjs');
+    const mod = await import('file:///C:/dev/portfolio/mobile/exshogi/node_modules/ws/wrapper.mjs');
     return mod.WebSocket ?? mod.default;
   }
 }

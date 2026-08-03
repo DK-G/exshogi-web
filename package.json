@@ -11,9 +11,9 @@
     "pvp:smoke": "node scripts/pvp-cloudflare-smoke.mjs"
   },
   "dependencies": {
-    "@exshogi/engine-clocks": "link:..\\..\\mobile\\exshogi\\packages\\engine-clocks",
-    "@exshogi/engine-core": "link:..\\..\\mobile\\exshogi\\packages\\engine-core",
-    "@exshogi/notation": "link:..\\..\\mobile\\exshogi\\packages\\notation",
+    "@exshogi/engine-clocks": "link:C:/dev/portfolio/mobile/exshogi/packages/engine-clocks",
+    "@exshogi/engine-core": "link:C:/dev/portfolio/mobile/exshogi/packages/engine-core",
+    "@exshogi/notation": "link:C:/dev/portfolio/mobile/exshogi/packages/notation",
     "react": "^19.2.5",
     "react-dom": "^19.2.5"
   },
