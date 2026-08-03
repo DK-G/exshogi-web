@@ -1,4 +1,28 @@
-# EX Shogi Web
+# EX Shogi Web（アーカイブ済み・2026-08-02）
+
+> **このリポジトリは役目を終えました。Web 版の開発は `exshogi-app` モノレポの `apps/web` へ一本化されています。**
+>
+> - **現行の実装**: `D:\dev\repos\exshogi-app\apps\web`（GitHub: `DK-G/EXshogi`）
+> - **ここは読み取り専用**。新しい変更はこのリポジトリではなく `apps/web` へ入れてください。
+>
+> ## なぜ移したか
+>
+> Web 版の実装が本リポジトリとモノレポの `apps/web` に分裂し、同じ不具合を二重に抱える状態になっていたため（2026-08-02 に判明）。
+> `apps/web` はコンポーネント分割まで進んでおり機能的に上位互換で、共有パッケージ `packages/*` と同一ツリーで整合が取れます。
+>
+> ## 引き継ぎ状況
+>
+> - 本リポジトリにのみ存在した**時計の状態別色分け（`timeTone`）は `apps/web` へ移植済み**。それ以外に移植すべき実装は無いことを全ファイル突き合わせで確認済み。
+> - アーカイブ時点の未コミット作業は、失われないよう各ブランチへコミットして push 済み（下記）。**いずれも未完成・未検証**です。
+>   - `codex/brand-refresh-web` — 全画面のブランド刷新、`docs/brand-design-direction.md`、**`wrangler.jsonc`（Cloudflare 静的配信・カスタムドメイン `play.exshogi.com`・SPA fallback）**。`package.json` の `@exshogi/*` link 先が旧パス `C:/dev/portfolio/...` のままで解決不能なので、移植時は読み替えが必要。
+>   - `feat/webmcp-read-only` — `src/services/webMcp.ts`（盤面 read-only 公開）と `DIRECTION.md` / `CHECKS.md`。
+>   - `codex/brand-warm-design-docs` — 暖色系デザイン方針の文書。
+>   - `codex/clock-parity-web` — 作業ログのみ。
+> - **`wrangler.jsonc` は Web 版デプロイの参考資産**です。API Worker が `www.exshogi.com/*` をキャッチオールしているため、Web を別サブドメイン（`play.exshogi.com`）へ置くこの構成はオリジン衝突を避けられます。`apps/web` をデプロイする際はここを出発点にしてください。
+
+---
+
+以下はアーカイブ時点の内容です（歴史的記録）。
 
 Browser implementation of EX Shogi. The canonical product is the mobile app in
 `D:\dev\repos\exshogi-app`; this project follows mobile rules,
